@@ -1,7 +1,7 @@
 package utils;
 
+import exception.RequestHeaderParserException;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -9,7 +9,7 @@ public class RequestHeaderParser {
 
   private RequestHeaderParser() {}
 
-  public static RequestHeader parse(InputStream in) throws IOException {
+  public static RequestHeader parse(InputStream in){
     BufferedReader br = new BufferedReader(new InputStreamReader(in));
     String method, url, version;
 
@@ -20,8 +20,8 @@ public class RequestHeaderParser {
       method = splitFirstLine[0];
       url = splitFirstLine[1];
       version = splitFirstLine[2];
-    } catch (IndexOutOfBoundsException e) {
-      throw new RuntimeException("Request Header 파싱에 실패했습니다.");
+    } catch (Exception e) {
+      throw new RequestHeaderParserException("Request Header 파싱에 실패했습니다.");
     }
 
     return RequestHeader.of(method, url, version);
