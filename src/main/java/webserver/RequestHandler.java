@@ -1,20 +1,18 @@
 package webserver;
 
+import controller.FrontController;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.RequestHeaderParser;
-import utils.RequestHeaderParser.RequestHeader;
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
     private Socket connection;
+    private static final FrontController frontController = new FrontController();
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
@@ -25,11 +23,9 @@ public class RequestHandler implements Runnable {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            RequestHeader requestHeader = RequestHeaderParser.parse(in);
-            String url = requestHeader.getUrl();
+            byte[] body = frontController.process(in);
 
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
