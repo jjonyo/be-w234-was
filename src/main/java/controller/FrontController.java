@@ -39,6 +39,12 @@ public class FrontController {
 
     File htmlFile = new File(DEFAULT_HTML_DIRECTORY + requestUrl);
     if (htmlFile.exists()) {
+      List<String> contentTypes = request.getHeaders().getHeader("Content-Type");
+
+      if (contentTypes != null) {
+        response.setContentType(contentTypes.toArray(String[]::new));
+      }
+
       response.setBody(htmlFile);
       return;
     }
