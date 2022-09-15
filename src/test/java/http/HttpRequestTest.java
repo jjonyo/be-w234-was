@@ -46,4 +46,21 @@ class HttpRequestTest {
     //when-then
     assertThrows(HttpRequestException.class, () -> HttpRequest.of(in));
   }
+
+  @Test
+  @DisplayName("params가 있을 경우 파싱할 수 있어야 합니다.")
+  void parseParams() {
+    //given
+    String HttpRequestString = "GET /user/create?userId=test&password=test&name=test HTTP/1.1\n" +
+        "Host: localhost:8080\n" +
+        "Connection: keep-alive\n" +
+        "Accept: */*";
+    InputStream in = new ByteArrayInputStream(HttpRequestString.getBytes(StandardCharsets.UTF_8));
+
+    //when
+    HttpRequest request = HttpRequest.of(in);
+
+    //then
+    assertThat(request.getParams().get("userId")).isEqualTo("test");
+  }
 }

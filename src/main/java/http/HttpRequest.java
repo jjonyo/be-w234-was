@@ -5,6 +5,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import utils.HttpRequestUtils;
 
 public class HttpRequest {
 
@@ -12,14 +15,16 @@ public class HttpRequest {
   private final String url;
   private final String version;
   private final HttpHeaders headers;
+  private final Map<String, String> params;
   //private final HttpBody body;
 
 
-  private HttpRequest(String method, String url, String version, HttpHeaders headers) {
+  private HttpRequest(String method, String url, String version, HttpHeaders headers, Map<String, String> params) {
     this.method = method;
     this.url = url;
     this.version = version;
     this.headers = headers;
+    this.params = params;
   }
 
   public static HttpRequest of(InputStream in) {
@@ -36,8 +41,19 @@ public class HttpRequest {
     }
 
     HttpHeaders headers = parseHeaders(br);
+    Map<String, String> params = parseParams(url);
 
-    return new HttpRequest(method, url, version, headers);
+    return new HttpRequest(method, url, version, headers, params);
+  }
+
+  private static Map<String, String> parseParams(String url) {
+    String[] splitUrl = url.split("\\?");
+
+    if (splitUrl.length > 1) {
+      return HttpRequestUtils.parseQueryString(splitUrl[1]);
+    }
+
+    return new HashMap<>();
   }
 
   public void addHeader(String key, String value) {
@@ -79,5 +95,9 @@ public class HttpRequest {
 
   public HttpHeaders getHeaders() {
     return headers;
+  }
+
+  public Map<String, String> getParams() {
+    return params;
   }
 }
