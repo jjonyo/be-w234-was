@@ -13,6 +13,7 @@ public class HttpRequest {
 
   private final String method;
   private final String url;
+  private final String requestUrl;
   private final String version;
   private final HttpHeaders headers;
   private final Map<String, String> params;
@@ -22,6 +23,7 @@ public class HttpRequest {
   private HttpRequest(String method, String url, String version, HttpHeaders headers, Map<String, String> params) {
     this.method = method;
     this.url = url;
+    this.requestUrl = url.split("\\?")[0];
     this.version = version;
     this.headers = headers;
     this.params = params;
@@ -87,6 +89,10 @@ public class HttpRequest {
 
   public String getUrl() {
     return url;
+  }
+
+  public String getRequestUrl() {
+    return requestUrl;
   }
 
   public String getVersion() {
