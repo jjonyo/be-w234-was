@@ -39,7 +39,7 @@ public class FrontController {
 
     File htmlFile = new File(DEFAULT_HTML_DIRECTORY + requestUrl);
     if (htmlFile.exists()) {
-      List<String> contentTypes = request.getHeaders().getHeader("Content-Type");
+      List<String> contentTypes = request.getHeaders().getHeader("Accept");
 
       if (contentTypes != null) {
         response.setContentType(contentTypes.toArray(String[]::new));
