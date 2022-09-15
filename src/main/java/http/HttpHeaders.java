@@ -20,4 +20,6 @@ public class HttpHeaders {
   public List<String> getHeader(String key) {
     return headers.getOrDefault(key, null);
   }
+
+  public Map<String, List<String>> map() { return headers; }
 }
