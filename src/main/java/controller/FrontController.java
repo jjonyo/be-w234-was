@@ -1,14 +1,14 @@
 package controller;
 
+import http.HttpRequest;
+import http.HttpResponse;
+import http.HttpStatus;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import utils.RequestHeaderParser;
-import utils.RequestHeaderParser.RequestHeader;
 
 public class FrontController {
 
@@ -28,21 +28,29 @@ public class FrontController {
     }
   }
 
-  public byte[] process(InputStream in) throws IOException {
-    RequestHeader requestHeader = RequestHeaderParser.parse(in);
-    String url = requestHeader.getUrl();
-    String requestUrl = url.split("\\?")[0];
+  public void process(HttpRequest request, HttpResponse response) throws IOException {
+    String requestUrl = request.getRequestUrl();
 
     if (controllerMap.containsKey(requestUrl)) {
       Controller controller = controllerMap.get(requestUrl);
-      return controller.process(requestHeader);
+      controller.process(request, response);
+      return;
     }
 
-    File htmlFile = new File(DEFAULT_HTML_DIRECTORY + url);
+    File htmlFile = new File(DEFAULT_HTML_DIRECTORY + requestUrl);
     if (htmlFile.exists()) {
-      return Files.readAllBytes(htmlFile.toPath());
+      List<String> contentTypes = request.getHeaders().getHeader("Content-Type");
+
+      if (contentTypes != null) {
+        response.setContentType(contentTypes.toArray(String[]::new));
+      }
+
+      response.setBody(htmlFile);
+      return;
     }
 
-    return Files.readAllBytes(new File(DEFAULT_HTML_DIRECTORY + DEFAULT_HTML).toPath());
+    response
+        .setStatus(HttpStatus.NOT_FOUND)
+        .setBody("Not Found".getBytes(StandardCharsets.UTF_8));
   }
 }

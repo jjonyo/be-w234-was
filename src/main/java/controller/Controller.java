@@ -1,10 +1,11 @@
 package controller;
 
-import utils.RequestHeaderParser.RequestHeader;
+import http.HttpRequest;
+import http.HttpResponse;
 
 public interface Controller {
 
-  byte[] process(RequestHeader requestHeader);
+  void process(HttpRequest request, HttpResponse response);
 
   String getMappingUrl();
 }
