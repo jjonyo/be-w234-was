@@ -53,7 +53,7 @@ public class HttpResponse {
 
   public void write() {
     try {
-      dos.writeBytes("HTTP/1.1 " + status.value() + " " + status.message() + "\r\n");
+      dos.writeBytes("HTTP/1.1 " + status.code() + " " + status.message() + "\r\n");
       headers.map().forEach(
           (key, values) -> {
             String joinString = String.join(";", values);

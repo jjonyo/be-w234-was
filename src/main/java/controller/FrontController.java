@@ -14,7 +14,6 @@ public class FrontController {
 
   private static final Map<String, Controller> controllerMap = new HashMap<>();
   private static final String DEFAULT_HTML_DIRECTORY = "./webapp";
-  private static final String DEFAULT_HTML = "/index.html";
 
   public FrontController() {
     init();

@@ -9,8 +9,7 @@ import com.google.common.collect.Maps;
 
 public class HttpRequestUtils {
     /**
-     * @param queryString은
-     *            URL에서 ? 이후에 전달되는 field1=value1&field2=value2 형식임
+     * @param queryString은 URL에서 ? 이후에 전달되는 field1=value1&field2=value2 형식임
      * @return
      */
     public static Map<String, String> parseQueryString(String queryString) {
@@ -18,8 +17,7 @@ public class HttpRequestUtils {
     }
 
     /**
-     * @param 쿠키
-     *            값은 name1=value1; name2=value2 형식임
+     * @param 쿠키 값은 name1=value1; name2=value2 형식임
      * @return
      */
     public static Map<String, String> parseCookies(String cookies) {
@@ -32,7 +30,8 @@ public class HttpRequestUtils {
         }
 
         String[] tokens = values.split(separator);
-        return Arrays.stream(tokens).map(t -> getKeyValue(t, "=")).filter(p -> p != null)
+        return Arrays.stream(tokens).map(t -> getKeyValue(t, "="))
+                .filter(p -> p != null)
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
     }
 
@@ -89,13 +88,11 @@ public class HttpRequestUtils {
                 return false;
             Pair other = (Pair) obj;
             if (key == null) {
-                if (other.key != null)
-                    return false;
+                return other.key == null;
             } else if (!key.equals(other.key))
                 return false;
             if (value == null) {
-                if (other.value != null)
-                    return false;
+                return other.value == null;
             } else if (!value.equals(other.value))
                 return false;
             return true;
