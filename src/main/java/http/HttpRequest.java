@@ -1,12 +1,14 @@
 package http;
 
 import exception.HttpRequestException;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+
 import utils.HttpRequestUtils;
 
 public class HttpRequest {
@@ -19,11 +21,13 @@ public class HttpRequest {
   private final Map<String, String> params;
   //private final HttpBody body;
 
+  private static final String QUERY_SPLIT_STRING = "\\?";
+
 
   private HttpRequest(String method, String url, String version, HttpHeaders headers, Map<String, String> params) {
     this.method = method;
     this.url = url;
-    this.requestUrl = url.split("\\?")[0];
+    this.requestUrl = url.split(QUERY_SPLIT_STRING)[0];
     this.version = version;
     this.headers = headers;
     this.params = params;
@@ -49,7 +53,7 @@ public class HttpRequest {
   }
 
   private static Map<String, String> parseParams(String url) {
-    String[] splitUrl = url.split("\\?");
+    String[] splitUrl = url.split(QUERY_SPLIT_STRING);
 
     if (splitUrl.length > 1) {
       return HttpRequestUtils.parseQueryString(splitUrl[1]);
@@ -76,7 +80,7 @@ public class HttpRequest {
           break;
         }
       }
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw new HttpRequestException("HttpRequest 생성에 실패했습니다.");
     }
 
