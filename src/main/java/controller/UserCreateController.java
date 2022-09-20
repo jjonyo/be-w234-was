@@ -26,7 +26,6 @@ public class UserCreateController implements Controller {
 
     response
             .setStatus(HttpStatus.OK)
-            .setContentType("text/html", "charset=utf-8")
             .setBody("SignupSuccess".getBytes(StandardCharsets.UTF_8));
   }
 
