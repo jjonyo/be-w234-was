@@ -22,4 +22,9 @@ public class HttpParams {
   public Map<String, String> map() {
     return params;
   }
+
+  public void copyFrom(Map<String, String> map) {
+    params.clear();
+    params.putAll(map);
+  }
 }
