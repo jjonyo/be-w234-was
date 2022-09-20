@@ -69,7 +69,7 @@ public class HttpResponse {
             (key, values) -> {
               String joinString = String.join(";", values);
               try {
-                dos.writeBytes(key + " " + joinString + "\r\n");
+                dos.writeBytes(key + ": " + joinString + "\r\n");
               } catch (IOException e) {
                 e.printStackTrace();
               }

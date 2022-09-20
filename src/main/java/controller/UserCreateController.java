@@ -7,6 +7,7 @@ import http.HttpStatus;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.HttpRequestUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -17,15 +18,18 @@ public class UserCreateController implements Controller {
 
   @Override
   public void process(HttpRequest request, HttpResponse response) {
-    HttpParams params = request.getParams();
+      HttpParams params = new HttpParams();
+    params.copyFrom(HttpRequestUtils.parseQueryString(request.getBody()));
 
+    //TODO :: UserService 구현
     User user = User.of(params.getParam("userId"), params.getParam("password"), params.getParam("name"),
             params.getParam("email"));
 
     logger.debug(user.toString());
 
     response
-            .setStatus(HttpStatus.OK)
+            .setStatus(HttpStatus.FOUND)
+            .addHeader("Location", "/index.html")
             .setBody("SignupSuccess".getBytes(StandardCharsets.UTF_8));
   }
 
