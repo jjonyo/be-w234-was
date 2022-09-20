@@ -63,4 +63,22 @@ class HttpRequestTest {
     //then
     assertThat(request.getParams().getParam("userId")).isEqualTo("test");
   }
+
+  @Test
+  @DisplayName("HttpRequest Body 파싱에 성공해야 한다.")
+  void parseBody() {
+    String httpRequestString = "POST /user/create HTTP/1.1\n" +
+            "Host: localhost:8080\n" +
+            "Connection: keep-alive\n" +
+            "Content-Length: 59\n" +
+            "Content-Type: application/x-www-form-urlencoded\n" +
+            "Accept: */*\n" +
+            "\n" +
+            "userId=test&password=password&name=test&email=test@test.net";
+    InputStream in = new ByteArrayInputStream(httpRequestString.getBytes(StandardCharsets.UTF_8));
+
+    HttpRequest request = HttpRequest.of(in);
+
+    assertThat(request.getBody()).isEqualTo("userId=test&password=password&name=test&email=test@test.net");
+  }
 }
