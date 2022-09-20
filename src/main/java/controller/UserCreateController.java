@@ -1,15 +1,14 @@
 package controller;
 
+import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.charset.StandardCharsets;
 
 public class UserCreateController implements Controller {
 
@@ -18,10 +17,10 @@ public class UserCreateController implements Controller {
 
   @Override
   public void process(HttpRequest request, HttpResponse response) {
-    Map<String, String> params = request.getParams();
+    HttpParams params = request.getParams();
 
-    User user = User.of(params.get("userId"), params.get("password"), params.get("name"),
-            params.get("email"));
+    User user = User.of(params.getParam("userId"), params.getParam("password"), params.getParam("name"),
+            params.getParam("email"));
 
     logger.debug(user.toString());
 
