@@ -53,17 +53,8 @@ public class HttpResponse {
 
   public void write() {
     try {
-      dos.writeBytes("HTTP/1.1 " + status.value() + " " + status.message() + "\r\n");
-      headers.map().forEach(
-          (key, values) -> {
-            String joinString = String.join(";", values);
-            try {
-              dos.writeBytes(key + " " + joinString + "\r\n");
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-      );
+      dos.writeBytes("HTTP/1.1 " + status.code() + " " + status.message() + "\r\n");
+      writeHeaders();
       dos.writeBytes("Content-Length: " + body.length + "\r\n");
       dos.writeBytes("\r\n");
       dos.write(body, 0, body.length);
@@ -71,5 +62,18 @@ public class HttpResponse {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void writeHeaders() {
+    headers.map().forEach(
+            (key, values) -> {
+              String joinString = String.join(";", values);
+              try {
+                dos.writeBytes(key + " " + joinString + "\r\n");
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            }
+    );
   }
 }

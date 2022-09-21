@@ -1,5 +1,6 @@
 package controller;
 
+import http.HttpContentType;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
@@ -14,7 +15,6 @@ public class FrontController {
 
   private static final Map<String, Controller> controllerMap = new HashMap<>();
   private static final String DEFAULT_HTML_DIRECTORY = "./webapp";
-  private static final String DEFAULT_HTML = "/index.html";
 
   public FrontController() {
     init();
@@ -39,12 +39,8 @@ public class FrontController {
 
     File htmlFile = new File(DEFAULT_HTML_DIRECTORY + requestUrl);
     if (htmlFile.exists()) {
-      List<String> contentTypes = request.getHeaders().getHeader("Accept");
-
-      if (contentTypes != null) {
-        response.setContentType(contentTypes.toArray(String[]::new));
-      }
-
+      String fileNameExtension = getFileNameExtension(htmlFile.getName());
+      response.setContentType(HttpContentType.getContentTypeByExtension(fileNameExtension));
       response.setBody(htmlFile);
       return;
     }
@@ -52,5 +48,16 @@ public class FrontController {
     response
         .setStatus(HttpStatus.NOT_FOUND)
         .setBody("Not Found".getBytes(StandardCharsets.UTF_8));
+  }
+
+  private String getFileNameExtension(String fileName) {
+    String extension = "";
+    int i = fileName.lastIndexOf(".");
+
+    if (i > 0) {
+      extension = fileName.substring(i + 1);
+    }
+
+    return extension;
   }
 }

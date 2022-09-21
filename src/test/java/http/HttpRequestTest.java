@@ -61,6 +61,6 @@ class HttpRequestTest {
     HttpRequest request = HttpRequest.of(in);
 
     //then
-    assertThat(request.getParams().get("userId")).isEqualTo("test");
+    assertThat(request.getParams().getParam("userId")).isEqualTo("test");
   }
 }
