@@ -2,13 +2,13 @@ package http;
 
 public class HttpRequestLine {
 
-  private final String method;
+  private final HttpMethod method;
   private final String url;
   private final String requestUrl;
   private final String version;
 
   private HttpRequestLine(String method, String url, String requestUrl, String version) {
-    this.method = method;
+    this.method = HttpMethod.valueOf(method);
     this.url = url;
     this.requestUrl = requestUrl;
     this.version = version;
@@ -18,7 +18,7 @@ public class HttpRequestLine {
     return new HttpRequestLine(method, url, requestUrl, version);
   }
 
-  public String getMethod() {
+  public HttpMethod getMethod() {
     return method;
   }
 
