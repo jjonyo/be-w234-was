@@ -50,7 +50,7 @@ public class HttpRequest {
     return requestLine.getRequestUrl();
   }
 
-  public String getMethod() {
+  public HttpMethod getMethod() {
     return requestLine.getMethod();
   }
 
