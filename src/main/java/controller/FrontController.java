@@ -22,7 +22,7 @@ public class FrontController {
   }
 
   private void init() {
-    List<Controller> controllers = List.of(new UserCreateController());
+    List<Controller> controllers = List.of(new SignUpController());
 
     for (Controller controller : controllers) {
       controllerMap.put(controller.getMappingUrl(), controller);
