@@ -26,7 +26,7 @@ class HttpRequestTest {
     HttpRequest request = HttpRequest.of(in);
 
     //then
-    assertThat(request.getMethod()).isEqualTo("GET");
+    assertThat(request.getMethod()).isEqualTo(HttpMethod.GET);
     assertThat(request.getUrl()).isEqualTo("/index.html");
     assertThat(request.getVersion()).isEqualTo("HTTP/1.1");
     assertThat(request.getHeaders().getHeader("Host")).contains("localhost:8080");
