@@ -2,6 +2,7 @@ package http;
 
 import exception.HttpRequestException;
 import utils.HttpRequestUtils;
+import utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -64,5 +65,13 @@ public class HttpRequestParser {
     }
 
     return params;
+  }
+
+  public String parseRequestBody(int contentLength) {
+    try {
+      return IOUtils.readData(br, contentLength);
+    } catch(Exception e) {
+      throw new HttpRequestException("HttpRequest Body 파싱에 실패했습니다.");
+    }
   }
 }
