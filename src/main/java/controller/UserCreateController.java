@@ -1,5 +1,6 @@
 package controller;
 
+import annotation.PostMapping;
 import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
@@ -16,9 +17,9 @@ public class UserCreateController implements Controller {
   private static final Logger logger = LoggerFactory.getLogger(UserCreateController.class);
   private static final String MAPPING_URL = "/user/create";
 
-  @Override
-  public void process(HttpRequest request, HttpResponse response) {
-      HttpParams params = new HttpParams();
+  @PostMapping
+  public void createUser(HttpRequest request, HttpResponse response) {
+    HttpParams params = new HttpParams();
     params.copyFrom(HttpRequestUtils.parseQueryString(request.getBody()));
 
     //TODO :: UserService 구현

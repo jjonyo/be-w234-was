@@ -1,11 +1,12 @@
 package controller;
 
-import http.HttpContentType;
-import http.HttpRequest;
-import http.HttpResponse;
-import http.HttpStatus;
+
+import annotation.*;
+import http.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +32,15 @@ public class FrontController {
   public void process(HttpRequest request, HttpResponse response) throws IOException {
     String requestUrl = request.getRequestUrl();
 
-    if (controllerMap.containsKey(requestUrl)) {
-      Controller controller = controllerMap.get(requestUrl);
-      controller.process(request, response);
+    Controller controller = controllerMap.getOrDefault(requestUrl, null);
+    Method mappingMethod = getMappingMethod(controller, request.getMethod());
+
+    if (mappingMethod != null) {
+      try {
+        mappingMethod.invoke(controller, request, response);
+      } catch (Exception e) {
+        throw new RuntimeException("Controller 실행에 실패했습니다.");
+      }
       return;
     }
 
@@ -46,8 +53,40 @@ public class FrontController {
     }
 
     response
-        .setStatus(HttpStatus.NOT_FOUND)
-        .setBody("Not Found".getBytes(StandardCharsets.UTF_8));
+            .setStatus(HttpStatus.NOT_FOUND)
+            .setBody("Not Found".getBytes(StandardCharsets.UTF_8));
+  }
+
+  private Method getMappingMethod(Controller controller, HttpMethod httpMethod) {
+    if (controller == null) {
+      return null;
+    }
+
+    Method[] declaredMethods = controller.getClass().getDeclaredMethods();
+    for (Method method : declaredMethods) {
+      if (isSupportMethod(httpMethod, method)) {
+        return method;
+      }
+    }
+
+    return null;
+  }
+
+  private boolean isSupportMethod(HttpMethod httpMethod, Method method) {
+    switch (httpMethod) {
+      case GET:
+        return method.isAnnotationPresent(GetMapping.class);
+      case POST:
+        return method.isAnnotationPresent(PostMapping.class);
+      case DELETE:
+        return method.isAnnotationPresent(DeleteMapping.class);
+      case PUT:
+        return method.isAnnotationPresent(PutMapping.class);
+      case PATCH:
+        return method.isAnnotationPresent(PatchMapping.class);
+      default:
+        return false;
+    }
   }
 
   private String getFileNameExtension(String fileName) {
