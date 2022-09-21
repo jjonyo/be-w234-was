@@ -5,6 +5,8 @@ import model.User;
 import repository.InMemoryUserRepository;
 import repository.UserRepository;
 
+import java.util.Optional;
+
 public class UserService {
 
   private static final UserService instance = new UserService();
@@ -30,7 +32,13 @@ public class UserService {
   }
 
   public boolean login(String userId, String password) {
+    Optional<User> user = userRepository.findByUserId(userId);
 
-    return true;
+    if (user.isEmpty()) {
+      return false;
+    }
+
+    String userPassword = user.get().getPassword();
+    return userPassword.equals(password);
   }
 }
