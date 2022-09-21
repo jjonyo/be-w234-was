@@ -6,14 +6,13 @@ import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
-import repository.InMemoryUserRepository;
 import service.UserService;
 import utils.HttpRequestUtils;
 
 public class SignUpController implements Controller {
 
   private static final String MAPPING_URL = "/user/create";
-  private final UserService userService = new UserService(new InMemoryUserRepository());
+  private final UserService userService = UserService.getInstance();
 
   @PostMapping
   public void createUser(HttpRequest request, HttpResponse response) {
@@ -25,7 +24,9 @@ public class SignUpController implements Controller {
     try {
       userService.createUser(createUserDto);
     } catch (Exception e) {
-      response.setStatus(HttpStatus.BAD_REQUEST);
+      response
+              .setStatus(HttpStatus.BAD_REQUEST)
+              .setBody("Signup fail.".getBytes());
       return;
     }
 
