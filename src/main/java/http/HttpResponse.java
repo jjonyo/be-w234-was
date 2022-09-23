@@ -29,7 +29,7 @@ public class HttpResponse {
     return this;
   }
 
-  public HttpResponse setContentType(String ...values) {
+  public HttpResponse setContentType(String... values) {
     for (String value : values) {
       addHeader("Content-Type", value);
     }
@@ -55,9 +55,11 @@ public class HttpResponse {
     try {
       dos.writeBytes("HTTP/1.1 " + status.code() + " " + status.message() + "\r\n");
       writeHeaders();
-      dos.writeBytes("Content-Length: " + body.length + "\r\n");
-      dos.writeBytes("\r\n");
-      dos.write(body, 0, body.length);
+      if (body != null) {
+        dos.writeBytes("Content-Length: " + body.length + "\r\n");
+        dos.writeBytes("\r\n");
+        dos.write(body, 0, body.length);
+      }
       dos.flush();
     } catch (IOException e) {
       e.printStackTrace();

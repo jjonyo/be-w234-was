@@ -5,6 +5,7 @@ import model.User;
 import repository.InMemoryUserRepository;
 import repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -40,5 +41,9 @@ public class UserService {
 
     String userPassword = user.get().getPassword();
     return userPassword.equals(password);
+  }
+
+  public List<User> findAll() {
+    return userRepository.findAll();
   }
 }

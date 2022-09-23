@@ -23,6 +23,7 @@ public class LoginController implements Controller {
     if (!isSuccess) {
       response.setStatus(HttpStatus.FOUND)
               .addHeader("Set-Cookie", "logined=false")
+              .addHeader("Set-Cookie", "Path=/")
               .addHeader("Location", "/user/login_failed.html");
       return;
     }
