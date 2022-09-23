@@ -31,7 +31,7 @@ public class UserListController implements Controller {
     appendUsers(htmlStringBuilder, users);
 
     response.setStatus(HttpStatus.OK)
-            .setContentType(HttpContentType.TEXT_HTML.getValue())
+            .setContentType(HttpContentType.TEXT_HTML)
             .setBody(htmlStringBuilder.toString().getBytes());
   }
 

@@ -37,6 +37,14 @@ public class HttpResponse {
     return this;
   }
 
+  public HttpResponse setContentType(HttpContentType... types) {
+    for (HttpContentType type : types) {
+      addHeader("Content-Type", type.getValue());
+    }
+
+    return this;
+  }
+
   public HttpResponse addHeader(String key, String value) {
     this.headers.addHeader(key, value);
 
