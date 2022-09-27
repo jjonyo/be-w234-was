@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class HttpRequestParser {
 
@@ -67,11 +68,28 @@ public class HttpRequestParser {
     return params;
   }
 
-  public String parseRequestBody(int contentLength) {
-    try {
-      return IOUtils.readData(br, contentLength);
-    } catch(Exception e) {
-      throw new HttpRequestException("HttpRequest Body 파싱에 실패했습니다.");
+  public HttpParams parseRequestBody(List<String> contentLength) {
+    HttpParams httpParams = new HttpParams();
+
+    if (contentLength != null && !contentLength.isEmpty()) {
+      int length = Integer.parseInt(contentLength.get(0));
+      try {
+        String body = IOUtils.readData(br, length);
+        httpParams.copyFrom(HttpRequestUtils.parseQueryString(body));
+      } catch (Exception e) {
+        throw new HttpRequestException("HttpRequest Body 파싱에 실패했습니다.");
+      }
     }
+
+    return httpParams;
+  }
+
+  public HttpCookie parseRequestCookie(List<String> cookies) {
+    if (cookies == null || cookies.isEmpty()) {
+      return new HttpCookie();
+    }
+
+    String cookieString = cookies.get(0);
+    return HttpCookie.from(HttpRequestUtils.parseCookies(cookieString));
   }
 }

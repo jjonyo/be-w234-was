@@ -2,12 +2,12 @@ package controller;
 
 import annotation.PostMapping;
 import controller.dto.CreateUserDto;
+import http.HttpHeaders;
 import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
 import service.UserService;
-import utils.HttpRequestUtils;
 
 public class SignUpController implements Controller {
 
@@ -16,10 +16,9 @@ public class SignUpController implements Controller {
 
   @PostMapping
   public void createUser(HttpRequest request, HttpResponse response) {
-    HttpParams params = new HttpParams();
-    params.copyFrom(HttpRequestUtils.parseQueryString(request.getBody()));
+    HttpParams bodyParams = request.getBody();
 
-    CreateUserDto createUserDto = CreateUserDto.of(params);
+    CreateUserDto createUserDto = CreateUserDto.of(bodyParams);
 
     try {
       userService.createUser(createUserDto);
@@ -32,7 +31,7 @@ public class SignUpController implements Controller {
 
     response
             .setStatus(HttpStatus.FOUND)
-            .addHeader("Location", "/index.html");
+            .setLocation("/index.html");
   }
 
   @Override

@@ -79,6 +79,12 @@ class HttpRequestTest {
 
     HttpRequest request = HttpRequest.of(in);
 
-    assertThat(request.getBody()).isEqualTo("userId=test&password=password&name=test&email=test@test.net");
+    HttpParams bodyParams = request.getBody();
+
+    assertThat(bodyParams.getParam("userId")).isEqualTo("test");
+    assertThat(bodyParams.getParam("password")).isEqualTo("password");
+    assertThat(bodyParams.getParam("name")).isEqualTo("test");
+    assertThat(bodyParams.getParam("email")).isEqualTo("test@test.net");
+    assertThat(bodyParams.getParam("x")).isNull();
   }
 }

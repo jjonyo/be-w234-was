@@ -39,8 +39,7 @@ public class UserService {
       return false;
     }
 
-    String userPassword = user.get().getPassword();
-    return userPassword.equals(password);
+    return user.get().isCorrectPassword(password);
   }
 
   public List<User> findAll() {

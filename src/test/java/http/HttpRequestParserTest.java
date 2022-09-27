@@ -28,6 +28,12 @@ class HttpRequestParserTest {
           "\n" +
           "userId=test&password=password&name=test&email=test@test.net";
 
+  String httpRequestStringWithCookie = "GET /user/list HTTP/1.1\n" +
+          "Host: localhost:8080\n" +
+          "Connection: keep-alive\n" +
+          "Cookie: logined=true; test=test\n" +
+          "Accept: */*\n";
+
   private HttpRequestParser httpRequestParser;
 
   @Test
@@ -74,8 +80,25 @@ class HttpRequestParserTest {
 
     httpRequestParser.parseRequestLine();
     HttpHeaders headers = httpRequestParser.parseRequestHeaders();
-    String body = httpRequestParser.parseRequestBody(Integer.parseInt(headers.getHeader("Content-Length").get(0)));
+    HttpParams bodyParams = httpRequestParser.parseRequestBody(headers.getHeader("Content-Length"));
 
-    assertThat(body).contains("userId=test&password=password&name=test&email=test@test.net");
+    assertThat(bodyParams.getParam("userId")).isEqualTo("test");
+    assertThat(bodyParams.getParam("password")).isEqualTo("password");
+    assertThat(bodyParams.getParam("name")).isEqualTo("test");
+    assertThat(bodyParams.getParam("email")).isEqualTo("test@test.net");
+    assertThat(bodyParams.getParam("x")).isNull();
+  }
+
+  @Test
+  @DisplayName("HttpCookie 파싱에 성공해야 한다.")
+  void parseCookie() {
+    httpRequestParser = new HttpRequestParser(new ByteArrayInputStream(httpRequestStringWithCookie.getBytes()));
+
+    httpRequestParser.parseRequestLine();
+    HttpHeaders headers = httpRequestParser.parseRequestHeaders();
+    HttpCookie cookie = httpRequestParser.parseRequestCookie(headers.getHeader(HttpHeaders.COOKIE));
+
+    assertThat(cookie.getCookie("logined")).isEqualTo("true");
+    assertThat(cookie.getCookie("test")).isEqualTo("test");
   }
 }
