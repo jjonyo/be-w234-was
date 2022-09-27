@@ -28,7 +28,7 @@ public class FrontController {
   }
 
   private void init() {
-    List<Controller> controllers = List.of(new SignUpController(), new LoginController(), new UserListController());
+    List<Controller> controllers = List.of(new SignUpController(), new LoginController(), new UserListController(), new MemoController());
 
     for (Controller controller : controllers) {
       controllerMap.put(controller.getMappingUrl(), controller);
