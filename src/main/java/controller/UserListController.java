@@ -1,10 +1,13 @@
 package controller;
 
 import annotation.GetMapping;
-import http.*;
+import http.HttpContentType;
+import http.HttpHeaders;
+import http.HttpRequest;
+import http.HttpResponse;
+import http.HttpStatus;
 import model.User;
 import service.UserService;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
@@ -45,7 +48,7 @@ public class UserListController implements Controller {
       num++;
       htmlStringBuilder.insert(bracketIndex + 1,
               String.format(
-                              "                <tr>\n" +
+                      "                <tr>\n" +
                               "                    <th scope=\"row\">%s</th> <td>%s</td> <td>%s</td> <td>%s</td><td><a href=\"#\" class=\"btn btn-success\" role=\"button\">수정</a></td>\n" +
                               "                </tr>",
                       num, user.getUserId(), user.getName(), user.getEmail()
