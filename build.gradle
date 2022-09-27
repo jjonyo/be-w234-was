@@ -15,7 +15,9 @@ dependencies {
 
     implementation 'com.google.guava:guava:29.0-jre'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
+    implementation 'org.jsoup:jsoup:1.15.3'
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.11.Final'
+    implementation 'mysql:mysql-connector-java:8.0.30'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
