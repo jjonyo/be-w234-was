@@ -28,7 +28,7 @@ public class LoginController implements Controller {
     response.setStatus(HttpStatus.FOUND)
             .addCookie("logined", "true")
             .addCookie("Path", "/")
-            .setLocation("/index.html");
+            .setLocation("/home");
   }
 
 

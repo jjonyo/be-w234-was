@@ -10,6 +10,7 @@ import http.HttpMethod;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -28,7 +29,7 @@ public class FrontController {
   }
 
   private void init() {
-    List<Controller> controllers = List.of(new SignUpController(), new LoginController(), new UserListController(), new MemoController());
+    List<Controller> controllers = List.of(new SignUpController(), new LoginController(), new UserListController(), new MemoController(), new HomeController());
 
     for (Controller controller : controllers) {
       controllerMap.put(controller.getMappingUrl(), controller);

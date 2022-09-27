@@ -5,6 +5,8 @@ import model.Memo;
 import repository.JpaMemoRepository;
 import repository.MemoRepository;
 
+import java.util.List;
+
 public class MemoService {
   private static final MemoService instance = new MemoService();
   private final MemoRepository memoRepository;
@@ -25,5 +27,9 @@ public class MemoService {
     );
 
     memoRepository.save(memo);
+  }
+
+  public List<Memo> getAllMemo() {
+    return memoRepository.findAll();
   }
 }

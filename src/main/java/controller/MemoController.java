@@ -31,7 +31,7 @@ public class MemoController implements Controller {
     }
 
     response.setStatus(HttpStatus.FOUND)
-            .setLocation("/index.html");
+            .setLocation("/home");
   }
 
   @Override
