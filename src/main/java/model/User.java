@@ -17,6 +17,10 @@ public class User {
     return new User(userId, password, name, email);
   }
 
+  public boolean isCorrectPassword(String comparedPassword) {
+    return password.equals(comparedPassword);
+  }
+
   public String getUserId() {
     return userId;
   }
