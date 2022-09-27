@@ -31,7 +31,7 @@ public class HttpResponse {
 
   public HttpResponse setContentType(String... values) {
     for (String value : values) {
-      addHeader("Content-Type", value);
+      addHeader(HttpHeaders.CONTENT_TYPE, value);
     }
 
     return this;
@@ -39,7 +39,7 @@ public class HttpResponse {
 
   public HttpResponse setContentType(HttpContentType... types) {
     for (HttpContentType type : types) {
-      addHeader("Content-Type", type.getValue());
+      addHeader(HttpHeaders.CONTENT_TYPE, type.getValue());
     }
 
     return this;

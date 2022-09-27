@@ -2,12 +2,12 @@ package controller;
 
 import annotation.PostMapping;
 import controller.dto.CreateUserDto;
+import http.HttpHeaders;
 import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
 import service.UserService;
-import utils.HttpRequestUtils;
 
 public class SignUpController implements Controller {
 
@@ -31,7 +31,7 @@ public class SignUpController implements Controller {
 
     response
             .setStatus(HttpStatus.FOUND)
-            .addHeader("Location", "/index.html");
+            .addHeader(HttpHeaders.LOCATION, "/index.html");
   }
 
   @Override

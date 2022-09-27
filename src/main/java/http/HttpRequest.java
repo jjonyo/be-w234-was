@@ -23,7 +23,7 @@ public class HttpRequest {
     HttpRequestLine requestLine = httpRequestParser.parseRequestLine();
     HttpHeaders headers = httpRequestParser.parseRequestHeaders();
     HttpParams params = httpRequestParser.parseRequestParams(requestLine);
-    HttpParams body = httpRequestParser.parseRequestBody(headers.getHeader("Content-Length"));
+    HttpParams body = httpRequestParser.parseRequestBody(headers.getHeader(HttpHeaders.CONTENT_LENGTH));
 
     return new HttpRequest(requestLine, headers, params, body);
   }

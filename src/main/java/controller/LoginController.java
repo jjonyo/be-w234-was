@@ -1,12 +1,12 @@
 package controller;
 
 import annotation.PostMapping;
+import http.HttpHeaders;
 import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
 import service.UserService;
-import utils.HttpRequestUtils;
 
 public class LoginController implements Controller {
   private static final String MAPPING_URL = "/user/login";
@@ -21,16 +21,16 @@ public class LoginController implements Controller {
 
     if (!isSuccess) {
       response.setStatus(HttpStatus.FOUND)
-              .addHeader("Set-Cookie", "logined=false")
-              .addHeader("Set-Cookie", "Path=/")
-              .addHeader("Location", "/user/login_failed.html");
+              .addHeader(HttpHeaders.SET_COOKIE, "logined=false")
+              .addHeader(HttpHeaders.SET_COOKIE, "Path=/")
+              .addHeader(HttpHeaders.LOCATION, "/user/login_failed.html");
       return;
     }
 
     response.setStatus(HttpStatus.FOUND)
-            .addHeader("Set-Cookie", "logined=true")
-            .addHeader("Set-Cookie", "Path=/")
-            .addHeader("Location", "/index.html");
+            .addHeader(HttpHeaders.SET_COOKIE, "logined=true")
+            .addHeader(HttpHeaders.SET_COOKIE, "Path=/")
+            .addHeader(HttpHeaders.LOCATION, "/index.html");
   }
 
 

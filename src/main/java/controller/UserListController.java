@@ -21,11 +21,11 @@ public class UserListController implements Controller {
   public void showUserList(HttpRequest request, HttpResponse response) {
     HttpHeaders headers = request.getHeaders();
 
-    List<String> cookies = headers.getHeader("Cookie");
+    List<String> cookies = headers.getHeader(HttpHeaders.COOKIE);
 
     if (cookies == null || !cookies.contains("logined=true")) {
       response.setStatus(HttpStatus.FOUND)
-              .addHeader("Location", "/user/login.html");
+              .addHeader(HttpHeaders.LOCATION, "/user/login.html");
       return;
     }
 
