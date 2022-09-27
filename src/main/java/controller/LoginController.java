@@ -15,10 +15,9 @@ public class LoginController implements Controller {
 
   @PostMapping
   public void login(HttpRequest request, HttpResponse response) {
-    HttpParams params = new HttpParams();
-    params.copyFrom(HttpRequestUtils.parseQueryString(request.getBody()));
+    HttpParams bodyParams = request.getBody();
 
-    boolean isSuccess = userService.login(params.getParam("userId"), params.getParam("password"));
+    boolean isSuccess = userService.login(bodyParams.getParam("userId"), bodyParams.getParam("password"));
 
     if (!isSuccess) {
       response.setStatus(HttpStatus.FOUND)

@@ -74,8 +74,12 @@ class HttpRequestParserTest {
 
     httpRequestParser.parseRequestLine();
     HttpHeaders headers = httpRequestParser.parseRequestHeaders();
-    String body = httpRequestParser.parseRequestBody(Integer.parseInt(headers.getHeader("Content-Length").get(0)));
+    HttpParams bodyParams = httpRequestParser.parseRequestBody(headers.getHeader("Content-Length"));
 
-    assertThat(body).contains("userId=test&password=password&name=test&email=test@test.net");
+    assertThat(bodyParams.getParam("userId")).isEqualTo("test");
+    assertThat(bodyParams.getParam("password")).isEqualTo("password");
+    assertThat(bodyParams.getParam("name")).isEqualTo("test");
+    assertThat(bodyParams.getParam("email")).isEqualTo("test@test.net");
+    assertThat(bodyParams.getParam("x")).isNull();
   }
 }

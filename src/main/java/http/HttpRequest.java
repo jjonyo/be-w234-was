@@ -1,17 +1,16 @@
 package http;
 
 import java.io.InputStream;
-import java.util.List;
 
 public class HttpRequest {
 
   private final HttpRequestLine requestLine;
   private final HttpHeaders headers;
   private final HttpParams params;
-  private final String body;
+  private final HttpParams body;
 
 
-  private HttpRequest(HttpRequestLine requestLine, HttpHeaders headers, HttpParams params, String body) {
+  private HttpRequest(HttpRequestLine requestLine, HttpHeaders headers, HttpParams params, HttpParams body) {
     this.requestLine = requestLine;
     this.headers = headers;
     this.params = params;
@@ -24,12 +23,7 @@ public class HttpRequest {
     HttpRequestLine requestLine = httpRequestParser.parseRequestLine();
     HttpHeaders headers = httpRequestParser.parseRequestHeaders();
     HttpParams params = httpRequestParser.parseRequestParams(requestLine);
-    String body = "";
-
-    List<String> contentLength = headers.getHeader("Content-Length");
-    if (contentLength != null) {
-      body = httpRequestParser.parseRequestBody(Integer.parseInt(contentLength.get(0)));
-    }
+    HttpParams body = httpRequestParser.parseRequestBody(headers.getHeader("Content-Length"));
 
     return new HttpRequest(requestLine, headers, params, body);
   }
@@ -62,7 +56,7 @@ public class HttpRequest {
     return requestLine.getVersion();
   }
 
-  public String getBody() {
+  public HttpParams getBody() {
     return body;
   }
 }

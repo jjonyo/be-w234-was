@@ -16,10 +16,9 @@ public class SignUpController implements Controller {
 
   @PostMapping
   public void createUser(HttpRequest request, HttpResponse response) {
-    HttpParams params = new HttpParams();
-    params.copyFrom(HttpRequestUtils.parseQueryString(request.getBody()));
+    HttpParams bodyParams = request.getBody();
 
-    CreateUserDto createUserDto = CreateUserDto.of(params);
+    CreateUserDto createUserDto = CreateUserDto.of(bodyParams);
 
     try {
       userService.createUser(createUserDto);
