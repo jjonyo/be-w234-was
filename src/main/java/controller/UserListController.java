@@ -6,11 +6,14 @@ import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
 import model.User;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import service.UserService;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class UserListController implements Controller {
   private final UserService userService = UserService.getInstance();
@@ -27,24 +30,27 @@ public class UserListController implements Controller {
       return;
     }
 
-    StringBuilder htmlStringBuilder = getHtmlStringBuilder();
-    List<User> users = userService.findAll();
-    appendUsers(htmlStringBuilder, users);
+    Document document;
+    try {
+      document = Jsoup.parse(new File(USER_LIST_HTML_FILE_PATH));
+      appendUsers(document, userService.findAll());
+    } catch (Exception e) {
+      throw new RuntimeException("HTML 파싱에 실패했습니다.");
+    }
 
     response.setStatus(HttpStatus.OK)
             .setContentType(HttpContentType.TEXT_HTML)
-            .setBody(htmlStringBuilder.toString().getBytes());
+            .setBody(document.html().getBytes());
   }
 
-  private void appendUsers(StringBuilder htmlStringBuilder, List<User> users) {
-    String htmlString = htmlStringBuilder.toString();
-    int userListIndex = htmlString.indexOf("user-list");
-    int bracketIndex = htmlString.indexOf(">", userListIndex);
+  private void appendUsers(Document document, List<User> users) {
+    Element element = document.getElementById("user-list");
+    Objects.requireNonNull(element, "user-list 테이블을 찾을 수 없습니다.");
 
     int num = 0;
     for (User user : users) {
       num++;
-      htmlStringBuilder.insert(bracketIndex + 1,
+      element.append(
               String.format(
                       "                <tr>\n" +
                               "                    <th scope=\"row\">%s</th> <td>%s</td> <td>%s</td> <td>%s</td><td><a href=\"#\" class=\"btn btn-success\" role=\"button\">수정</a></td>\n" +
@@ -53,22 +59,6 @@ public class UserListController implements Controller {
               )
       );
     }
-  }
-
-  private StringBuilder getHtmlStringBuilder() {
-    StringBuilder sb = new StringBuilder();
-    try {
-      BufferedReader br = new BufferedReader(new FileReader(USER_LIST_HTML_FILE_PATH));
-
-      String line = br.readLine();
-      while (line != null) {
-        sb.append(line).append("\n");
-        line = br.readLine();
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("HTML파일을 읽어오는데 실패했습니다.");
-    }
-    return sb;
   }
 
   @Override
