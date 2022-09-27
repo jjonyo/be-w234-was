@@ -25,7 +25,7 @@ public class UserListController implements Controller {
 
     if (cookies == null || !cookies.contains("logined=true")) {
       response.setStatus(HttpStatus.FOUND)
-              .addHeader(HttpHeaders.LOCATION, "/user/login.html");
+              .setLocation("/user/login.html");
       return;
     }
 

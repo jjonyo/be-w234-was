@@ -31,7 +31,7 @@ public class SignUpController implements Controller {
 
     response
             .setStatus(HttpStatus.FOUND)
-            .addHeader(HttpHeaders.LOCATION, "/index.html");
+            .setLocation("/index.html");
   }
 
   @Override

@@ -59,6 +59,12 @@ public class HttpResponse {
     this.body = Files.readAllBytes(file.toPath());
   }
 
+  public HttpResponse setLocation(String location) {
+    addHeader(HttpHeaders.LOCATION, location);
+
+    return this;
+  }
+
   public void write() {
     try {
       dos.writeBytes("HTTP/1.1 " + status.code() + " " + status.message() + "\r\n");
