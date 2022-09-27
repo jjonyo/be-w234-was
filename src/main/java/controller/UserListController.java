@@ -2,12 +2,12 @@ package controller;
 
 import annotation.GetMapping;
 import http.HttpContentType;
-import http.HttpHeaders;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpStatus;
 import model.User;
 import service.UserService;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
@@ -19,11 +19,9 @@ public class UserListController implements Controller {
 
   @GetMapping
   public void showUserList(HttpRequest request, HttpResponse response) {
-    HttpHeaders headers = request.getHeaders();
+    boolean isLogin = "true".equals(request.getCookie("logined"));
 
-    List<String> cookies = headers.getHeader(HttpHeaders.COOKIE);
-
-    if (cookies == null || !cookies.contains("logined=true")) {
+    if (!isLogin) {
       response.setStatus(HttpStatus.FOUND)
               .setLocation("/user/login.html");
       return;

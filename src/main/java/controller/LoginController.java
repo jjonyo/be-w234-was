@@ -21,15 +21,13 @@ public class LoginController implements Controller {
 
     if (!isSuccess) {
       response.setStatus(HttpStatus.FOUND)
-              .addHeader(HttpHeaders.SET_COOKIE, "logined=false")
-              .addHeader(HttpHeaders.SET_COOKIE, "Path=/")
               .setLocation("/user/login_failed.html");
       return;
     }
 
     response.setStatus(HttpStatus.FOUND)
-            .addHeader(HttpHeaders.SET_COOKIE, "logined=true")
-            .addHeader(HttpHeaders.SET_COOKIE, "Path=/")
+            .addCookie("logined", "true")
+            .addCookie("Path", "/")
             .setLocation("/index.html");
   }
 

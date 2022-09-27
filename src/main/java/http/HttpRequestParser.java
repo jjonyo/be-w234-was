@@ -83,4 +83,13 @@ public class HttpRequestParser {
 
     return httpParams;
   }
+
+  public HttpCookie parseRequestCookie(List<String> cookies) {
+    if (cookies == null || cookies.isEmpty()) {
+      return new HttpCookie();
+    }
+
+    String cookieString = cookies.get(0);
+    return HttpCookie.from(HttpRequestUtils.parseCookies(cookieString));
+  }
 }

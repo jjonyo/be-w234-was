@@ -51,6 +51,12 @@ public class HttpResponse {
     return this;
   }
 
+  public HttpResponse addCookie(String key, String value) {
+    addHeader(HttpHeaders.SET_COOKIE, String.join("=", key, value));
+
+    return this;
+  }
+
   public void setBody(byte[] body) {
     this.body = body;
   }
