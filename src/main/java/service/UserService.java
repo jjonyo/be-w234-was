@@ -2,7 +2,7 @@ package service;
 
 import controller.dto.CreateUserDto;
 import model.User;
-import repository.InMemoryUserRepository;
+import repository.JpaUserRepository;
 import repository.UserRepository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class UserService {
   private final UserRepository userRepository;
 
   private UserService() {
-    this.userRepository = new InMemoryUserRepository();
+    this.userRepository = new JpaUserRepository();
   }
 
   public static UserService getInstance() {

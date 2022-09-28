@@ -2,7 +2,6 @@ package controller;
 
 import annotation.PostMapping;
 import controller.dto.CreateUserDto;
-import http.HttpHeaders;
 import http.HttpParams;
 import http.HttpRequest;
 import http.HttpResponse;
@@ -23,6 +22,7 @@ public class SignUpController implements Controller {
     try {
       userService.createUser(createUserDto);
     } catch (Exception e) {
+      e.printStackTrace();
       response
               .setStatus(HttpStatus.BAD_REQUEST)
               .setBody("Signup fail.".getBytes());
@@ -31,7 +31,7 @@ public class SignUpController implements Controller {
 
     response
             .setStatus(HttpStatus.FOUND)
-            .setLocation("/index.html");
+            .setLocation("/home");
   }
 
   @Override
