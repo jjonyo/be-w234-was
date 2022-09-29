@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class JpaUserRepository implements UserRepository {
 
-  private final EntityManagerFactory emf = PersistenceManager.getInstance().getEntityManagerFactory();
+  private final EntityManagerFactory emf = PersistenceManager.getEntityManagerFactory();
 
   @Override
   public Optional<User> save(User user) {

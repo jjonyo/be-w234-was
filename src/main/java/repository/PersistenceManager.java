@@ -5,25 +5,11 @@ import javax.persistence.Persistence;
 
 public class PersistenceManager {
 
-  private static final String PERSISTENCE_NAME = "java_was_2022";
-  private static final PersistenceManager instance = new PersistenceManager();
-  private EntityManagerFactory emf;
+  private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("java_was_2022");
 
   private PersistenceManager() {}
 
-  public static PersistenceManager getInstance() {
-    return instance;
-  }
-
-  public EntityManagerFactory getEntityManagerFactory() {
-    if (emf == null) {
-      createEntityManagerFactory();
-    }
-
+  public static EntityManagerFactory getEntityManagerFactory() {
     return emf;
-  }
-
-  private void createEntityManagerFactory() {
-    emf = Persistence.createEntityManagerFactory(PERSISTENCE_NAME);
   }
 }

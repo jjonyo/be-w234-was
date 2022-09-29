@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JpaMemoRepository implements MemoRepository {
-  private final EntityManagerFactory emf = PersistenceManager.getInstance().getEntityManagerFactory();
+  private final EntityManagerFactory emf = PersistenceManager.getEntityManagerFactory();
 
   @Override
   public Optional<Memo> save(Memo memo) {
