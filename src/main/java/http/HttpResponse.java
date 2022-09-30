@@ -98,4 +98,12 @@ public class HttpResponse {
             }
     );
   }
+
+  public HttpStatus getStatus() {
+    return status;
+  }
+
+  public HttpHeaders getHeaders() {
+    return headers;
+  }
 }
